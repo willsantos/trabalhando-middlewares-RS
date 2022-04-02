@@ -24,7 +24,13 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+  const { user } = request;
+
+  if (user.todos.length > 9 && user.pro != true) {
+    return response.status(403).json({ error: 'user exceed limit for free' })
+  }
+
+  return next();
 }
 
 function checksTodoExists(request, response, next) {
