@@ -38,6 +38,14 @@ function checksTodoExists(request, response, next) {
   const { username } = request.headers;
   const { id } = request.params;
 
+  const regexUuid = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+
+  const validUuid = regexUuid.test(id);
+
+  if (!validUuid) {
+    return response.status(400).json({ error: 'id is not valid format' });
+  }
+
   const user = users.find(user => user.username === username);
 
   if (!user) {
